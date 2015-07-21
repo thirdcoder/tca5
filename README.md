@@ -7,4 +7,4 @@ A 5-trit computer system emulator
 * Audio: memory-mapped beeper
 * Timer: interrupt-based programmable frequency
 
-To use, run `npm start`
+To use, run `npm start` or try the [live demo](http://thirdcoder.github.io/tca5).
