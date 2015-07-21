@@ -1,8 +1,8 @@
 {
   "name": "tca5",
-  "description": "a 5-trit computer system emulator",
+  "description": "a 5-trit computer system emulator using cpu3502",
   "version": "0.0.1",
-  "main": "demo.js",
+  "main": "tca5.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:thirdcoder/tca5.git"
