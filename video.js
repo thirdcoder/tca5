@@ -23,7 +23,7 @@ const INT_INPUT = -1;
 function installVideoHardware(cpu) {
   const term = Triterm({
     addressTryteSize: VIDEO_TRYTE_COUNT,
-    tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET), // direct access
+    //tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET), // no direct access
     handleInput: (tt, ev) => {
       if (Number.isInteger(tt)) {
         cpu.interrupt(INT_INPUT, tt);
@@ -35,7 +35,12 @@ function installVideoHardware(cpu) {
     start: VIDEO_ADDRESS_OFFSET,                      // -3281      %0i111 11111   $wdddd
     end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET,   // 29524, end %11111 11111   $ddddd
     write: (address, value) => {
-      //console.log('video write:',address,value);
+      term.tc.tritmap[address - VIDEO_ADDRESS_OFFSET] = value;
+      console.log('video write:',address,value);
+    },
+    read: (address) => {
+      console.log('video read:',address);
+      return term.tc.tritmap[address - VIDEO_ADDDRESS_OFFSET];
     },
   });
 
