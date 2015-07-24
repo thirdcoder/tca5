@@ -23,7 +23,7 @@ const INT_INPUT = -1;
 function installVideoHardware(cpu) {
   const term = Triterm({
     addressTryteSize: VIDEO_TRYTE_COUNT,
-    tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET),
+    tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET), // direct access
     handleInput: (tt, ev) => {
       if (Number.isInteger(tt)) {
         cpu.interrupt(INT_INPUT, tt);
@@ -35,10 +35,7 @@ function installVideoHardware(cpu) {
     start: VIDEO_ADDRESS_OFFSET,                      // -3281      %0i111 11111   $wdddd
     end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET,   // 29524, end %11111 11111   $ddddd
     write: (address, value) => {
-      // When writing to video, refresh the terminal canvas
-      // TODO: optimize to throttle refresh? refresh rate 60 Hz?/requestAnimationFrame? dirty, only if changes?
       //console.log('video write:',address,value);
-      term.tc.refresh();
     },
   });
 
