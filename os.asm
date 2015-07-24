@@ -1,19 +1,17 @@
-LDA #$ijk
-LDA #%ii1i0
-LDA #&QF
 NOP
-NOP
-NOP
-LDA #0
-LDA #42
-STA 0
 
-LDA #%00i01
-PTI A
-
-TAX
-
-LDA #'X
+; write to memory-mapped video
+LDA #%i1i1i
+.equ $wdddd video_start
+.equ $ddddd video_end
+STA video_start
+STA $wdddd
+STA $0zzzz
+STA $0zzzy
+STA $0zzzx
+STA $0zzzw
+STA $0zzz0
+STA $0zzza
 
 .equ -3282 chargen
 .equ -3283 row
@@ -21,23 +19,8 @@ LDA #'X
 
 .equ -3286 beep
 
-STA chargen
-
-LDX #1
-STX col
-STA chargen
-
-LDX #1
-STX row
-LDX #2
-STX col
-STA chargen
-
-LDX #-1
-STX row
-STA chargen
-
-
+; write to text character generator
+LDA #'X
 LDX #0
 STX row
 LDY #4
@@ -125,7 +108,7 @@ cursor_char:
 .tryte 0
 
 greeting:
-.data "Hello, world! ☺ 3502 CPU online: system readyWaiting for user input."
+.data "Hello, world! ☺ 3502 CPU online: system ready---------------------------------------------"
 .tryte 0
 
 prompt_string:
