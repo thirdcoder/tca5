@@ -20,6 +20,7 @@ const CURSOR_COL_ADDRESS = -3284;
 
 const INT_INPUT = -1;
 
+// Create the video terminal hardware display (on the main thread), listen for worker
 function createVideoHardware(worker) {
   const term = Triterm({
     addressTryteSize: VIDEO_TRYTE_COUNT,
@@ -55,6 +56,7 @@ function createVideoHardware(worker) {
   });
 };
 
+// Install the video hardware on the CPU in the worker (send messages back to main)
 function installVideoHardware(cpu) {
   cpu.memory.addMemoryMap('video', {
     start: VIDEO_ADDRESS_OFFSET,                      // -3281      %0i111 11111   $wdddd
@@ -87,6 +89,6 @@ function installVideoHardware(cpu) {
 }
 
 module.exports = {
-  createVideoHardware,
-  installVideoHardware,
+  create: createVideoHardware,
+  install: installVideoHardware,
 };

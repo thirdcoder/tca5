@@ -29,6 +29,6 @@ function installAudioHardware(cpu) {
 };
 
 module.exports = {
-  createAudioHardware,
-  installAudioHardware,
+  create: createAudioHardware,
+  install: installAudioHardware,
 };

@@ -2,9 +2,9 @@
 
 const CPU = require('cpu3502');
 
-const {installVideoHardware} = require('./video.js');
-const {installAudioHardware} = require('./audio.js');
-const installTimerHardware = require('./timer.js');
+const installVideoHardware = require('./video.js').install;
+const installAudioHardware = require('./audio.js').install;
+const installTimerHardware = require('./timer.js').install;
 
 module.exports = (self) => {
 
