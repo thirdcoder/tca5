@@ -158,12 +158,26 @@ JMP handled_input
 handle_enter:
 STZ chargen                    ; clear cursor
 JSR next_line
+; check commands TODO: strcmp, check full string instead of only first character
+LDY #0
+LDA #'b
+CMP line_buffer,Y
+BEQ command_beep
+LDA #'c
+CMP line_buffer,Y
+BEQ command_clear
+JMP command_bad
+
+command_bad:
 LDA #<bad_command_string
 LDX #>bad_command_string
 JSR print_string
 LDA #<line_buffer
 LDX #>line_buffer
 JSR print_string
+JMP handle_enter_done
+
+handle_enter_done:
 JSR reset_line_buffer
 INC row
 STZ col
@@ -186,6 +200,15 @@ JSR print_char
 handled_input:
 RTI
 
+command_beep:
+STA beep
+JMP handle_enter_done
+
+command_clear:
+STZ col
+STZ row
+; TODO: clear terminal
+JMP handle_enter_done
 
 
 ; append character in A to line_buffer
