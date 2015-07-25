@@ -23,7 +23,7 @@
     ]
   },
   "scripts": {
-    "start": "wzrd tca5.js"
+    "start": "wzrd main.js"
   },
   "dependencies": {
     "brfs": "^1.4.0",
