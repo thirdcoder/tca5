@@ -32,6 +32,23 @@ function createVideoHardware(worker) {
     },
   });
 
+  worker.addEventListener('message', (ev) => {
+    if (ev.data.cmd === 'video write') {
+      term.tc.tritmap[ev.data.address] = ev.data.value;
+    } else if (ev.data.cmd === 'video term setTTChar')  {
+      let row = ev.data.row;
+      let col = ev.data.col;
+
+      // wrap-around if row/col out of terminal range
+      row %= term.rowCount; if (row < 0) row += term.rowCount;
+      col %= term.colCount; if (col < 0) col += term.colCount;
+
+      console.log('COLROW',col,row);
+
+      term.setTTChar(ev.data.value, col, row);
+    }
+  });
+
   raf(function tick() {
     term.refresh();
     raf(tick);
@@ -43,12 +60,14 @@ function installVideoHardware(cpu) {
     start: VIDEO_ADDRESS_OFFSET,                      // -3281      %0i111 11111   $wdddd
     end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET,   // 29524, end %11111 11111   $ddddd
     write: (address, value) => {
-      term.tc.tritmap[address - VIDEO_ADDRESS_OFFSET] = value;
+      self.postMessage({cmd:'video write', address:address - VIDEO_ADDRESS_OFFSET, value});
+      //term.tc.tritmap[address - VIDEO_ADDRESS_OFFSET] = value;
       console.log('video write:',address,value);
     },
     read: (address) => {
       console.log('video read:',address);
-      return term.tc.tritmap[address - VIDEO_ADDDRESS_OFFSET];
+      throw new Error('video read unsupported'); // TODO?
+      //return term.tc.tritmap[address - VIDEO_ADDDRESS_OFFSET];
     },
   });
 
@@ -61,13 +80,8 @@ function installVideoHardware(cpu) {
       let row = cpu.memory.read(CURSOR_ROW_ADDRESS);
       let col = cpu.memory.read(CURSOR_COL_ADDRESS);
 
-      // wrap-around if row/col out of terminal range
-      row %= term.rowCount; if (row < 0) row += term.rowCount;
-      col %= term.colCount; if (col < 0) col += term.colCount;
-
-      console.log('COLROW',col,row);
-
-      term.setTTChar(value, col, row);
+      //term.setTTChar(value, col, row);
+      self.postMessage({cmd:'video term setTTChar', value, col, row});
     },
   });
 }
