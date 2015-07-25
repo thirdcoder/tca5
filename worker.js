@@ -3,7 +3,7 @@
 const CPU = require('cpu3502');
 
 const {installVideoHardware} = require('./video.js');
-const installAudioHardware = require('./audio.js');
+const {installAudioHardware} = require('./audio.js');
 const installTimerHardware = require('./timer.js');
 
 module.exports = (self) => {
@@ -17,7 +17,7 @@ module.exports = (self) => {
       console.log('cpu=',cpu);
 
       installVideoHardware(cpu);
-      //installAudioHardware(cpu); // TODO
+      installAudioHardware(cpu);
       installTimerHardware(cpu);
 
       const fs = require('fs');
