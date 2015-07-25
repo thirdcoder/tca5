@@ -120,6 +120,17 @@ bad_command_string:
 .data "Bad command or file name: "
 .tryte 0
 
+help_command_string:
+.data "Available commands:                          "
+.data "beep, clear, help                            "
+; TODO: show longer help once address-wrapping is fixed in print_string
+;.data "Help:                                        "
+;.data "beep - sound a beep through the speaker      "
+;.data "clear - clear terminal screen display        "
+;.data "help - show help on supported commands       "
+;.data "                                             "
+.tryte 0
+
 handle_pulse:
 ; blinking cursor
 LDA cursor_char
@@ -166,6 +177,9 @@ BEQ command_beep
 LDA #'c
 CMP line_buffer,Y
 BEQ command_clear
+LDA #'h
+CMP line_buffer,Y
+BEQ command_help
 JMP command_bad
 
 command_bad:
@@ -176,6 +190,12 @@ LDA #<line_buffer
 LDX #>line_buffer
 JSR print_string
 INC row
+JMP handle_enter_done
+
+command_help:
+LDA #<help_command_string
+LDX #>help_command_string
+JSR print_string
 JMP handle_enter_done
 
 handle_enter_done:
