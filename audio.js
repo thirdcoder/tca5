@@ -8,14 +8,12 @@ const beepURL = 'data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AA
 function createAudioHardware(worker) {
   const beep = new Audio(beepURL);
 
-  const handler = (ev) => {
+  worker.hardwareHandlers.audio = (ev) => {
     if (ev.data.cmd === 'beep') {
       beep.play();
       // TODO: more sophisticated sound effects, synthesizer?
     }
   };
-
-  return {name:'audio', handler};
 }
 
 function installAudioHardware(cpu) {

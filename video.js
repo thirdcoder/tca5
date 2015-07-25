@@ -32,7 +32,7 @@ function createVideoHardware(worker) {
     },
   });
 
-  const handler = (ev) => {
+  worker.hardwareHandlers.video = (ev) => {
     if (ev.data.cmd === 'write') {
       term.tc.tritmap[ev.data.address] = ev.data.value;
     } else if (ev.data.cmd === 'term setTTChar')  {
@@ -53,8 +53,6 @@ function createVideoHardware(worker) {
     term.refresh();
     raf(tick);
   });
-
-  return {name:'video', handler};
 };
 
 // Install the video hardware on the CPU in the worker (send messages back to main, handle messages to cpu)

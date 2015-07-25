@@ -5,7 +5,6 @@ const TIMER_FREQUENCY_ADDRESS = -3285;
 const INT_PULSE = 1;
 
 function createTimerHardware(worker) {
-  return {name:'timer', handler: () => {}};
   // nothing needed on main thread; this is entirely in web worker
 }
 
