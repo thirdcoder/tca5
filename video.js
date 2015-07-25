@@ -27,8 +27,7 @@ function createVideoHardware(worker) {
     //tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET), // no direct access
     handleInput: (tt, ev) => {
       if (Number.isInteger(tt)) {
-        //cpu.interrupt(INT_INPUT, tt);
-        worker.postMessage({cmd:'interrupt', args:[INT_INPUT, tt]});
+        worker.postMessage({cmd:'keyboard input', value:tt});
       }
     },
   });
@@ -56,8 +55,15 @@ function createVideoHardware(worker) {
   });
 };
 
-// Install the video hardware on the CPU in the worker (send messages back to main)
+// Install the video hardware on the CPU in the worker (send messages back to main, handle messages to cpu)
 function installVideoHardware(cpu) {
+  self.addEventListener('message', (ev) => {
+    if (ev.data.cmd === 'keyboard input') {
+      console.log('worker received interrupt');
+      cpu.interrupt(INT_INPUT, ev.data.value);
+    }
+  });
+
   cpu.memory.addMemoryMap('video', {
     start: VIDEO_ADDRESS_OFFSET,                      // -3281      %0i111 11111   $wdddd
     end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET,   // 29524, end %11111 11111   $ddddd

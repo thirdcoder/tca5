@@ -24,9 +24,6 @@ module.exports = (self) => {
       cpu.assemble_bootcode(fs.readFileSync('os.asm', 'utf8'));
       cpu.boot();
       self.postMessage('booted');
-    } else if (ev.data.cmd === 'interrupt') {
-      console.log('worker received interrupt');
-      global.cpu.interrupt(ev.data.args[0], ev.data.args[1]);
     }
   });
 };
