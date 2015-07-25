@@ -175,11 +175,11 @@ JSR print_string
 LDA #<line_buffer
 LDX #>line_buffer
 JSR print_string
+INC row
 JMP handle_enter_done
 
 handle_enter_done:
 JSR reset_line_buffer
-INC row
 STZ col
 LDA #<prompt_string
 LDX #>prompt_string
