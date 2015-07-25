@@ -20,17 +20,25 @@ const CURSOR_COL_ADDRESS = -3284;
 
 const INT_INPUT = -1;
 
-function installVideoHardware(cpu) {
+function createVideoHardware(worker) {
   const term = Triterm({
     addressTryteSize: VIDEO_TRYTE_COUNT,
     //tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET), // no direct access
     handleInput: (tt, ev) => {
       if (Number.isInteger(tt)) {
-        cpu.interrupt(INT_INPUT, tt);
+        //cpu.interrupt(INT_INPUT, tt);
+        worker.postMessage({cmd:'interrupt', args:[INT_INPUT, tt]});
       }
     },
   });
 
+  raf(function tick() {
+    term.refresh();
+    raf(tick);
+  });
+};
+
+function installVideoHardware(cpu) {
   cpu.memory.addMemoryMap('video', {
     start: VIDEO_ADDRESS_OFFSET,                      // -3281      %0i111 11111   $wdddd
     end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET,   // 29524, end %11111 11111   $ddddd
@@ -62,11 +70,9 @@ function installVideoHardware(cpu) {
       term.setTTChar(value, col, row);
     },
   });
-
-  raf(function tick() {
-    term.refresh();
-    raf(tick);
-  });
 }
 
-module.exports = installVideoHardware;
+module.exports = {
+  createVideoHardware,
+  installVideoHardware,
+};
