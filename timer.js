@@ -18,7 +18,7 @@ function installTimerHardware(cpu) {
         console.log(`TIMER FIRE, next=${ms} ms`);
         cpu.interrupt(INT_PULSE); // TODO: pass dt, time since previous fire?
 
-        _timer = window.setTimeout(fire, ms);
+        _timer = setTimeout(fire, ms);
       };
 
       if (_timer === undefined) fire();
