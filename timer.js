@@ -4,6 +4,10 @@ const TIMER_FREQUENCY_ADDRESS = -3285;
 
 const INT_PULSE = 1;
 
+function createTimerHardware(worker) {
+  // nothing needed on main thread; this is entirely in web worker
+}
+
 function installTimerHardware(cpu) {
   let _timer;
 
@@ -18,7 +22,7 @@ function installTimerHardware(cpu) {
         console.log(`TIMER FIRE, next=${ms} ms`);
         cpu.interrupt(INT_PULSE); // TODO: pass dt, time since previous fire?
 
-        _timer = window.setTimeout(fire, ms);
+        _timer = setTimeout(fire, ms);
       };
 
       if (_timer === undefined) fire();
@@ -26,4 +30,7 @@ function installTimerHardware(cpu) {
   });
 }
 
-module.exports = installTimerHardware;
+module.exports = {
+  create: createTimerHardware,
+  install: installTimerHardware,
+};
