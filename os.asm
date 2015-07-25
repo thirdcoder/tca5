@@ -204,10 +204,26 @@ command_beep:
 STA beep
 JMP handle_enter_done
 
+.equ 45 col_count
+.equ 28 row_count
+
 command_clear:
 STZ col
 STZ row
-; TODO: clear terminal
+_command_clear_next_row:
+_command_clear_next_col:
+STZ chargen     ; write empty character at each cursor position to clear terminal TODO: instead write to tritmapped memory?
+INC col
+LDA col
+CMP #col_count
+BNE _command_clear_next_col
+INC row
+LDA row
+CMP #row_count
+BNE _command_clear_next_row
+STZ beep        ; beep when done
+STZ col         ; reset cursor to beginning
+STZ row
 JMP handle_enter_done
 
 
@@ -250,8 +266,7 @@ STA chargen
 INC col
 
 LDX col
-.equ 45 row_count
-CPX #row_count
+CPX #col_count
 BNE print_char_done
 JSR next_line          ; at last column, wrap cursor to next line
 
