@@ -8,12 +8,14 @@ const beepURL = 'data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AA
 function createAudioHardware(worker) {
   const beep = new Audio(beepURL);
 
-  worker.addEventListener('message', (ev) => {
-    if (ev.data.cmd === 'audio beep') {
+  const handler = (ev) => {
+    if (ev.data.cmd === 'beep') {
       beep.play();
       // TODO: more sophisticated sound effects, synthesizer?
     }
-  });
+  };
+
+  return {name:'audio', handler};
 }
 
 function installAudioHardware(cpu) {
@@ -23,7 +25,7 @@ function installAudioHardware(cpu) {
     end: BEEPER_ADDRESS,
     write: (address, value) => {
       console.log('beep',address,value);
-      self.postMessage({cmd: 'audio beep'});
+      self.postMessage({hardware:'audio', cmd: 'beep'});
     },
   });
 };
