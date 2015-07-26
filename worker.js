@@ -2,10 +2,6 @@
 
 const CPU = require('cpu3502');
 
-const installVideoHardware = require('./video.js').install;
-const installAudioHardware = require('./audio.js').install;
-const installTimerHardware = require('./timer.js').install;
-
 module.exports = (self) => {
 
   self.addEventListener('message', (ev) => {
@@ -16,9 +12,10 @@ module.exports = (self) => {
       global.cpu = cpu;
       console.log('cpu=',cpu);
 
-      installVideoHardware(cpu);
-      installAudioHardware(cpu);
-      installTimerHardware(cpu);
+      require('./video.js').install(cpu);
+      require('./audio.js').install(cpu);
+      require('./timer.js').install(cpu);
+      require('./floppy.js').install(cpu);
 
       const fs = require('fs');
       cpu.assemble_bootcode(fs.readFileSync('os.asm', 'utf8'));

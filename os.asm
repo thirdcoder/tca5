@@ -183,6 +183,12 @@ BEQ command_clear
 LDA #'h
 CMP line_buffer,Y
 BEQ command_help
+LDA #'r
+CMP line_buffer,Y
+BEQ command_read
+LDA #'w
+CMP line_buffer,Y
+BEQ command_write
 JMP command_bad
 
 handle_enter_done:
@@ -229,6 +235,12 @@ JMP handle_enter_done
 
 command_null:
 JMP handle_enter_done
+
+command_read:
+JMP command_read2       ; too far
+command_write:
+JMP command_write2
+
 
 .equ 45 col_count
 .equ 28 row_count
@@ -316,6 +328,63 @@ _print_string_done:
 RTS
 _print_string_param:
 .word 0
+
+
+
+
+.equ -3290 floppy_data_ptr
+.equ -3292 floppy_name_ptr
+.equ -3294 floppy_length_ptr
+.equ -3296 floppy_command_execute
+.equ -1 floppy_command_read
+.equ 0 floppy_command_write
+
+; write data to floppy (similar to echo text > filename TODO)
+command_write2:
+LDA #<line_buffer
+LDX #>line_buffer
+STA floppy_data_ptr     ; TODO: increment pointer to remove command prefix
+STX floppy_data_ptr+1
+
+LDA #<filename
+LDX #>filename
+STA floppy_name_ptr
+STX floppy_name_ptr+1
+
+LDA #floppy_command_write
+STA floppy_command_execute  ; TODO: print out number of trytes written? to filename?
+
+JMP handle_enter_done
+
+
+; read data from floppy TODO: rename 'cat'...? Unix
+command_read2:
+LDA #<line_buffer
+LDX #>line_buffer
+STA floppy_data_ptr
+STX floppy_data_ptr+1
+
+LDA #<filename
+LDX #>filename
+STA floppy_name_ptr
+STX floppy_name_ptr+1
+
+LDA #floppy_command_read
+STA floppy_command_execute
+
+LDA #<line_buffer
+LDX #>line_buffer
+JSR print_string
+INC row
+STZ col
+
+JMP handle_enter_done
+
+; floppy filename TODO: read from argument
+filename:
+.data "hi"
+.tryte 0
+
 
 
 line_buffer:
