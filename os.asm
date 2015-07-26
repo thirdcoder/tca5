@@ -263,7 +263,7 @@ line_buffer_offset:
 ; reset line buffer to empty string
 reset_line_buffer:
 STZ line_buffer_offset
-STA line_buffer
+STZ line_buffer
 RTS
 
 ; delete last character of line buffer, sets carry flag if cannot be deleted
