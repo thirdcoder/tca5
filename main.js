@@ -3,10 +3,6 @@
 const webworkify = require('webworkify');
 const worker = webworkify(require('./worker.js'));
 
-const createVideoHardware = require('./video.js').create;
-const createAudioHardware = require('./audio.js').create;
-const createTimerHardware = require('./timer.js').create;
-
 worker.hardwareHandlers = {};
 
 worker.addEventListener('message', (ev) => {
@@ -17,9 +13,10 @@ worker.addEventListener('message', (ev) => {
   }
 });
 
-createVideoHardware(worker);
-createAudioHardware(worker);
-createTimerHardware(worker);
+require('./video.js').create(worker);
+require('./audio.js').create(worker);
+require('./timer.js').create(worker);
+require('./floppy.js').create(worker);
 
 worker.postMessage({cmd:'boot'});
 
