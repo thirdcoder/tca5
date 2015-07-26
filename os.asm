@@ -182,22 +182,6 @@ CMP line_buffer,Y
 BEQ command_help
 JMP command_bad
 
-command_bad:
-LDA #<bad_command_string
-LDX #>bad_command_string
-JSR print_string
-LDA #<line_buffer
-LDX #>line_buffer
-JSR print_string
-INC row
-JMP handle_enter_done
-
-command_help:
-LDA #<help_command_string
-LDX #>help_command_string
-JSR print_string
-JMP handle_enter_done
-
 handle_enter_done:
 JSR reset_line_buffer
 STZ col
@@ -219,6 +203,22 @@ JSR print_char
 
 handled_input:
 RTI
+
+command_bad:
+LDA #<bad_command_string
+LDX #>bad_command_string
+JSR print_string
+LDA #<line_buffer
+LDX #>line_buffer
+JSR print_string
+INC row
+JMP handle_enter_done
+
+command_help:
+LDA #<help_command_string
+LDX #>help_command_string
+JSR print_string
+JMP handle_enter_done
 
 command_beep:
 STA beep
