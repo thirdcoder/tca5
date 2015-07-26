@@ -322,7 +322,7 @@ LDA (_print_string_param),Y
 CMP #0
 BEQ _print_string_done
 JSR print_char
-INY
+INC _print_string_param     ; TODO: handle wrap-around
 BRA _print_string_loop
 _print_string_done:
 RTS
