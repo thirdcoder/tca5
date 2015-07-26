@@ -122,7 +122,7 @@ bad_command_string:
 
 help_command_string:
 .data "Available commands:                          "
-.data "beep, clear, help                            "
+.data "beep, clear, help, read, write               "
 ; TODO: show longer help once address-wrapping is fixed in print_string
 ;.data "Help:                                        "
 ;.data "beep - sound a beep through the speaker      "
