@@ -171,6 +171,9 @@ STZ chargen                    ; clear cursor
 JSR next_line
 ; check commands TODO: strcmp, check full string instead of only first character
 LDY #0
+LDA #'\0
+CMP line_buffer,Y
+BEQ command_null
 LDA #'b
 CMP line_buffer,Y
 BEQ command_beep
@@ -222,6 +225,9 @@ JMP handle_enter_done
 
 command_beep:
 STA beep
+JMP handle_enter_done
+
+command_null:
 JMP handle_enter_done
 
 .equ 45 col_count
