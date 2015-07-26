@@ -122,13 +122,13 @@ bad_command_string:
 
 help_command_string:
 .data "Available commands:                          "
-.data "beep, clear, help, read, write               "
-; TODO: show longer help once address-wrapping is fixed in print_string
-;.data "Help:                                        "
-;.data "beep - sound a beep through the speaker      "
-;.data "clear - clear terminal screen display        "
-;.data "help - show help on supported commands       "
-;.data "                                             "
+.data "Help:                                        "
+.data "beep - sound a beep through the speaker      "
+.data "clear - clear terminal screen display        "
+.data "help - show help on supported commands       "
+.data "read - read data from floppy disk            "
+.data "write - write data to floppy disk            "
+.data "                                             "
 .tryte 0
 
 handle_pulse:
@@ -322,7 +322,12 @@ LDA (_print_string_param),Y
 CMP #0
 BEQ _print_string_done
 JSR print_char
-INC _print_string_param     ; TODO: handle wrap-around
+LDA #1
+ADC _print_string_param
+STA _print_string_param
+LDA #0
+ADC _print_string_param+1
+STA _print_string_param+1
 BRA _print_string_loop
 _print_string_done:
 RTS
