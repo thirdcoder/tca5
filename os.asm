@@ -128,7 +128,7 @@ help_command_string:
 .data "help - show help on supported commands       "
 .data "read - read data from floppy disk            "
 .data "write - write data to floppy disk            "
-.data "                                             "
+.data "echo - echo input to terminal                "
 .tryte 0
 
 handle_pulse:
@@ -189,6 +189,9 @@ BEQ command_read
 LDA #'w
 CMP line_buffer,Y
 BEQ command_write
+LDA #'e
+CMP line_buffer,Y
+BEQ command_echo
 JMP command_bad
 
 handle_enter_done:
@@ -241,6 +244,12 @@ JMP command_read2       ; too far
 command_write:
 JMP command_write2
 
+command_echo:
+LDA #<line_buffer
+LDX #>line_buffer
+JSR print_string
+INC row
+JMP handle_enter_done
 
 .equ 45 col_count
 .equ 28 row_count
