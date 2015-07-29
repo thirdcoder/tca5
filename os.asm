@@ -1,19 +1,17 @@
-LDA #$ijk
-LDA #%ii1i0
-LDA #&QF
 NOP
-NOP
-NOP
-LDA #0
-LDA #42
-STA 0
 
-LDA #%00i01
-PTI A
-
-TAX
-
-LDA #'X
+; write to memory-mapped video
+LDA #%i1i1i
+.equ $wdddd video_start
+.equ $ddddd video_end
+STA video_start
+STA $wdddd
+STA $0zzzz
+STA $0zzzy
+STA $0zzzx
+STA $0zzzw
+STA $0zzz0
+STA $0zzza
 
 .equ -3282 chargen
 .equ -3283 row
@@ -21,23 +19,8 @@ LDA #'X
 
 .equ -3286 beep
 
-STA chargen
-
-LDX #1
-STX col
-STA chargen
-
-LDX #1
-STX row
-LDX #2
-STX col
-STA chargen
-
-LDX #-1
-STX row
-STA chargen
-
-
+; write to text character generator
+LDA #'X
 LDX #0
 STX row
 LDY #4
@@ -125,7 +108,7 @@ cursor_char:
 .tryte 0
 
 greeting:
-.data "Hello, world! ☺ 3502 CPU online: system readyWaiting for user input."
+.data "Hello, world! ☺ 3502 CPU online: system ready---------------------------------------------"
 .tryte 0
 
 prompt_string:
@@ -135,6 +118,17 @@ prompt_string:
 
 bad_command_string:
 .data "Bad command or file name: "
+.tryte 0
+
+help_command_string:
+.data "Available commands:                          "
+.data "Help:                                        "
+.data "beep - sound a beep through the speaker      "
+.data "clear - clear terminal screen display        "
+.data "help - show help on supported commands       "
+.data "read - read data from floppy disk            "
+.data "write - write data to floppy disk            "
+.data "echo - echo input to terminal                "
 .tryte 0
 
 handle_pulse:
@@ -175,14 +169,33 @@ JMP handled_input
 handle_enter:
 STZ chargen                    ; clear cursor
 JSR next_line
-LDA #<bad_command_string
-LDX #>bad_command_string
-JSR print_string
-LDA #<line_buffer
-LDX #>line_buffer
-JSR print_string
+; check commands TODO: strcmp, check full string instead of only first character
+LDY #0
+LDA #'\0
+CMP line_buffer,Y
+BEQ command_null
+LDA #'b
+CMP line_buffer,Y
+BEQ command_beep
+LDA #'c
+CMP line_buffer,Y
+BEQ command_clear
+LDA #'h
+CMP line_buffer,Y
+BEQ command_help
+LDA #'r
+CMP line_buffer,Y
+BEQ command_read
+LDA #'w
+CMP line_buffer,Y
+BEQ command_write
+LDA #'e
+CMP line_buffer,Y
+BEQ command_echo
+JMP command_bad
+
+handle_enter_done:
 JSR reset_line_buffer
-INC row
 STZ col
 LDA #<prompt_string
 LDX #>prompt_string
@@ -203,6 +216,62 @@ JSR print_char
 handled_input:
 RTI
 
+command_bad:
+LDA #<bad_command_string
+LDX #>bad_command_string
+JSR print_string
+LDA #<line_buffer
+LDX #>line_buffer
+JSR print_string
+INC row
+JMP handle_enter_done
+
+command_help:
+LDA #<help_command_string
+LDX #>help_command_string
+JSR print_string
+JMP handle_enter_done
+
+command_beep:
+STA beep
+JMP handle_enter_done
+
+command_null:
+JMP handle_enter_done
+
+command_read:
+JMP command_read2       ; too far
+command_write:
+JMP command_write2
+
+command_echo:
+LDA #<line_buffer
+LDX #>line_buffer
+JSR print_string
+INC row
+JMP handle_enter_done
+
+.equ 45 col_count
+.equ 28 row_count
+
+command_clear:
+STZ col
+STZ row
+_command_clear_next_row:
+_command_clear_next_col:
+STZ chargen     ; write empty character at each cursor position to clear terminal TODO: instead write to tritmapped memory?
+INC col
+LDA col
+CMP #col_count
+BNE _command_clear_next_col
+INC row
+LDA row
+CMP #row_count
+BNE _command_clear_next_row
+STZ beep        ; beep when done
+STZ col         ; reset cursor to beginning
+STZ row
+JMP handle_enter_done
 
 
 ; append character in A to line_buffer
@@ -221,7 +290,7 @@ line_buffer_offset:
 ; reset line buffer to empty string
 reset_line_buffer:
 STZ line_buffer_offset
-STA line_buffer
+STZ line_buffer
 RTS
 
 ; delete last character of line buffer, sets carry flag if cannot be deleted
@@ -244,8 +313,7 @@ STA chargen
 INC col
 
 LDX col
-.equ 45 row_count
-CPX #row_count
+CPX #col_count
 BNE print_char_done
 JSR next_line          ; at last column, wrap cursor to next line
 
@@ -263,12 +331,74 @@ LDA (_print_string_param),Y
 CMP #0
 BEQ _print_string_done
 JSR print_char
-INY
+LDA #1
+ADC _print_string_param
+STA _print_string_param
+LDA #0
+ADC _print_string_param+1
+STA _print_string_param+1
 BRA _print_string_loop
 _print_string_done:
 RTS
 _print_string_param:
 .word 0
+
+
+
+
+.equ -3290 floppy_data_ptr
+.equ -3292 floppy_name_ptr
+.equ -3294 floppy_length_ptr
+.equ -3296 floppy_command_execute
+.equ -1 floppy_command_read
+.equ 0 floppy_command_write
+
+; write data to floppy (similar to echo text > filename TODO)
+command_write2:
+LDA #<line_buffer
+LDX #>line_buffer
+STA floppy_data_ptr     ; TODO: increment pointer to remove command prefix
+STX floppy_data_ptr+1
+
+LDA #<filename
+LDX #>filename
+STA floppy_name_ptr
+STX floppy_name_ptr+1
+
+LDA #floppy_command_write
+STA floppy_command_execute  ; TODO: print out number of trytes written? to filename?
+
+JMP handle_enter_done
+
+
+; read data from floppy TODO: rename 'cat'...? Unix
+command_read2:
+LDA #<line_buffer
+LDX #>line_buffer
+STA floppy_data_ptr
+STX floppy_data_ptr+1
+
+LDA #<filename
+LDX #>filename
+STA floppy_name_ptr
+STX floppy_name_ptr+1
+
+LDA #floppy_command_read
+STA floppy_command_execute
+
+LDA #<line_buffer
+LDX #>line_buffer
+JSR print_string
+INC row
+STZ col
+
+JMP handle_enter_done
+
+; floppy filename TODO: read from argument
+filename:
+.data "hi"
+.tryte 0
+
 
 
 line_buffer:

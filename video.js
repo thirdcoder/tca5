@@ -20,25 +20,62 @@ const CURSOR_COL_ADDRESS = -3284;
 
 const INT_INPUT = -1;
 
-function installVideoHardware(cpu) {
+// Create the video terminal hardware display (on the main thread), listen for worker
+function createVideoHardware(worker) {
   const term = Triterm({
     addressTryteSize: VIDEO_TRYTE_COUNT,
-    tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET),
+    //tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET), // no direct access
     handleInput: (tt, ev) => {
       if (Number.isInteger(tt)) {
-        cpu.interrupt(INT_INPUT, tt);
+        worker.postMessage({cmd:'keyboard input', value:tt});
       }
     },
   });
 
+  worker.hardwareHandlers.video = (ev) => {
+    if (ev.data.cmd === 'write') {
+      term.tc.tritmap[ev.data.address] = ev.data.value;
+    } else if (ev.data.cmd === 'term setTTChar')  {
+      let row = ev.data.row;
+      let col = ev.data.col;
+
+      // wrap-around if row/col out of terminal range
+      row %= term.rowCount; if (row < 0) row += term.rowCount;
+      col %= term.colCount; if (col < 0) col += term.colCount;
+
+      console.log('COLROW',col,row);
+
+      term.setTTChar(ev.data.value, col, row);
+    }
+  };
+
+  raf(function tick() {
+    term.refresh();
+    raf(tick);
+  });
+};
+
+// Install the video hardware on the CPU in the worker (send messages back to main, handle messages to cpu)
+function installVideoHardware(cpu) {
+  self.addEventListener('message', (ev) => {
+    if (ev.data.cmd === 'keyboard input') {
+      console.log('worker received interrupt');
+      cpu.interrupt(INT_INPUT, ev.data.value);
+    }
+  });
+
   cpu.memory.addMemoryMap('video', {
-    start: VIDEO_ADDRESS_OFFSET,                      // -3281      0i111 11111
-    end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET,   // 29524, end 11111 11111
+    start: VIDEO_ADDRESS_OFFSET,                      // -3281      %0i111 11111   $wdddd
+    end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET,   // 29524, end %11111 11111   $ddddd
     write: (address, value) => {
-      // When writing to video, refresh the terminal canvas
-      // TODO: optimize to throttle refresh? refresh rate 60 Hz?/requestAnimationFrame? dirty, only if changes?
-      //console.log('video write:',address,value);
-      term.tc.refresh();
+      self.postMessage({hardware:'video', cmd:'write', address:address - VIDEO_ADDRESS_OFFSET, value});
+      //term.tc.tritmap[address - VIDEO_ADDRESS_OFFSET] = value;
+      console.log('video write:',address,value);
+    },
+    read: (address) => {
+      console.log('video read:',address);
+      throw new Error('video read unsupported'); // TODO?
+      //return term.tc.tritmap[address - VIDEO_ADDDRESS_OFFSET];
     },
   });
 
@@ -51,20 +88,13 @@ function installVideoHardware(cpu) {
       let row = cpu.memory.read(CURSOR_ROW_ADDRESS);
       let col = cpu.memory.read(CURSOR_COL_ADDRESS);
 
-      // wrap-around if row/col out of terminal range
-      row %= term.rowCount; if (row < 0) row += term.rowCount;
-      col %= term.colCount; if (col < 0) col += term.colCount;
-
-      console.log('COLROW',col,row);
-
-      term.setTTChar(value, col, row);
+      //term.setTTChar(value, col, row);
+      self.postMessage({hardware:'video', cmd:'term setTTChar', value, col, row});
     },
-  });
-
-  raf(function tick() {
-    term.refresh();
-    raf(tick);
   });
 }
 
-module.exports = installVideoHardware;
+module.exports = {
+  create: createVideoHardware,
+  install: installVideoHardware,
+};
