@@ -6,23 +6,163 @@ var BEEPER_ADDRESS = -3286;
 // scanner beep from http://freesound.org/people/kalisemorrison/sounds/202530/ (CC-0)
 var beepURL = 'data:audio/mp3;base64,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';
 
-function installAudioHardware(cpu) {
+function createAudioHardware(worker) {
   var beep = new Audio(beepURL);
+
+  worker.hardwareHandlers.audio = function (ev) {
+    if (ev.data.cmd === 'beep') {
+      beep.play();
+      // TODO: more sophisticated sound effects, synthesizer?
+    }
+  };
+}
+
+function installAudioHardware(cpu) {
 
   cpu.memory.addMemoryMap('beeper', {
     start: BEEPER_ADDRESS,
     end: BEEPER_ADDRESS,
     write: function write(address, value) {
       console.log('beep', address, value);
-      beep.play();
-      // TODO: more sophisticated sound effects, synthesizer?
+      self.postMessage({ hardware: 'audio', cmd: 'beep' });
     }
   });
 };
 
-module.exports = installAudioHardware;
+module.exports = {
+  create: createAudioHardware,
+  install: installAudioHardware
+};
 
 },{}],2:[function(require,module,exports){
+'use strict';
+
+var _require = require('trit-text');
+
+var toUnicode = _require.toUnicode;
+var fromUnicode = _require.fromUnicode;
+
+var FLOPPY_DATA_PTR = -3290;
+var FLOPPY_NAME_PTR = -3292;
+var FLOPPY_LENGTH_ADDRESS = -3294;
+var FLOPPY_COMMAND_ADDRESS = -3296;
+
+var FLOPPY_COMMAND_READ = -1;
+var FLOPPY_COMMAND_WRITE = 0;
+
+function createFloppyHardware(worker) {}
+
+function installFloppyHardware(cpu) {
+
+  var floppies = {
+    hi: 'hello from floppy',
+    empty: '',
+    smilies: '☺☺☺☻☻☻'
+  };
+  // TODO: store in webfs
+
+  // read null-terminated filename string pointer
+  function getFilename() {
+    var namePtr = cpu.memory.readWord(FLOPPY_NAME_PTR);
+    var filename = '';
+    do {
+      var tt = cpu.memory.read(namePtr);
+      if (tt === 0) {
+        break;
+      }
+      var u = toUnicode(tt);
+
+      filename += u;
+      ++namePtr;
+    } while (filename.length < 12);
+    return filename;
+  }
+
+  // write data into floppy
+  function writeFile() {
+    var filename = getFilename();
+    console.log('write fn=' + filename);
+
+    var length = cpu.memory.readWord(FLOPPY_LENGTH_ADDRESS);
+    var dataPtr = cpu.memory.readWord(FLOPPY_DATA_PTR);
+
+    var data = '';
+    for (var i = 0; i < length; ++i) {
+      var tt = cpu.memory.read(dataPtr + i);
+      var u = toUnicode(tt);
+      data += u;
+    }
+    console.log('wrote data', data);
+    floppies[filename] = data;
+  }
+
+  // read data from floppy
+  function readFile() {
+    var filename = getFilename();
+    console.log('read fn=' + filename);
+
+    var data = floppies[filename];
+    if (data === undefined) data = ''; // empty
+    var length = data.length;
+    var dataPtr = cpu.memory.readWord(FLOPPY_DATA_PTR);
+    for (var i = 0; i < data.length; ++i) {
+      var u = data.charAt(i);
+      var tt = fromUnicode(u);
+      cpu.memory.write(dataPtr, tt);
+      ++dataPtr;
+    }
+    cpu.memory.writeWord(FLOPPY_LENGTH_ADDRESS, length);
+  }
+
+  cpu.memory.addMemoryMap('floppy', {
+    start: FLOPPY_COMMAND_ADDRESS,
+    end: FLOPPY_COMMAND_ADDRESS,
+    write: function write(address, value) {
+      console.log('floppy', value);
+      switch (value) {
+        case FLOPPY_COMMAND_WRITE:
+          writeFile();
+          break;
+
+        case FLOPPY_COMMAND_READ:
+          readFile();
+          break;
+
+        default:
+      }
+    }
+  });
+}
+
+module.exports = {
+  create: createFloppyHardware,
+  install: installFloppyHardware
+};
+
+},{"trit-text":38}],3:[function(require,module,exports){
+'use strict';
+
+var webworkify = require('webworkify');
+var worker = webworkify(require('./worker.js'));
+
+worker.hardwareHandlers = {};
+
+worker.addEventListener('message', function (ev) {
+  console.log('got worker event', ev);
+
+  if (ev.data.hardware) {
+    worker.hardwareHandlers[ev.data.hardware](ev);
+  }
+});
+
+require('./video.js').create(worker);
+require('./audio.js').create(worker);
+require('./timer.js').create(worker);
+require('./floppy.js').create(worker);
+
+worker.postMessage({ cmd: 'boot' });
+
+},{"./audio.js":1,"./floppy.js":2,"./timer.js":52,"./video.js":53,"./worker.js":54,"webworkify":51}],4:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -465,7 +605,7 @@ module.exports = function (opts) {
   return new CPU(opts);
 };
 
-},{"./alu":3,"./arch":4,"./as":6,"./flags":7,"./instr_decode":8,"./memory":9,"./opcodes":28,"./stack":29,"./word.js":30,"./xop":31,"balanced-ternary":10,"trit-getset":17,"trit-text":22}],3:[function(require,module,exports){
+},{"./alu":5,"./arch":6,"./as":8,"./flags":9,"./instr_decode":10,"./memory":11,"./opcodes":30,"./stack":31,"./word.js":32,"./xop":33,"balanced-ternary":12,"trit-getset":19,"trit-text":24}],5:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -592,7 +732,7 @@ var ALU = (function () {
           this.update_flags_from(this.cpu.yindex);
           break;
 
-        // unary functions TODO: how should these set flags?
+        // unary tritwise functions TODO: how should these set flags?
         case OP.NTI:
           write_arg(NTI(read_arg()));break;
         case OP.STI:
@@ -604,6 +744,15 @@ var ALU = (function () {
         case OP.RD:
           write_arg(RD(read_arg()));break;
 
+        // dyadic tritwise functions
+        case OP.AND:
+          this.cpu.accum = TAND(this.cpu.accum, read_arg());break;
+        case OP.ORA:
+          this.cpu.accum = TOR(this.cpu.accum, read_arg());break;
+        case OP.BUT:
+          this.cpu.accum = BUT(this.cpu.accum, read_arg());break;
+
+        // arithmetic
         case OP.ADC:
           {
             // A = A+M+C
@@ -611,6 +760,7 @@ var ALU = (function () {
 
             this.cpu.accum = result.result;
             this.update_flags_from(this.cpu.accum);
+            this.cpu.flags.C = result.carryOut;
             this.cpu.flags.V = result.overflow;
             break;
           }
@@ -674,7 +824,7 @@ module.exports = function (cpu) {
   return new ALU(cpu);
 };
 
-},{"./arch":4,"./arithmetic":5,"./opcodes":28,"balanced-ternary":10,"least-significant-trit":14,"trit-getset":17,"trit-shift":19,"tritwise":27}],4:[function(require,module,exports){
+},{"./arch":6,"./arithmetic":7,"./opcodes":30,"balanced-ternary":12,"least-significant-trit":16,"trit-getset":19,"trit-shift":21,"tritwise":29}],6:[function(require,module,exports){
 'use strict';
 
 // architectural defines: tryte (~byte) size, word size, memory size
@@ -705,7 +855,7 @@ module.exports = {
   MEMORY_SIZE: MEMORY_SIZE
 };
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 var _require = require('./arch');
@@ -718,17 +868,29 @@ function add(a, b) {
   var carryIn = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
 
   var result = a + b + carryIn;
-  var overflow = 0;
+  var fullResult = result;
+  var carryOut = 0;
 
+  // carryOut is 6th trit, truncate result to 5 trits
   if (result > MAX_TRYTE) {
-    overflow = 1;
+    carryOut = 1;
     result -= MAX_TRYTE * 2 + 1;
   } else if (result < MIN_TRYTE) {
-    overflow = -1; // underflow
+    carryOut = -1; // underflow
     result += MAX_TRYTE * 2 + 1;
   }
 
-  return { result: result, overflow: overflow };
+  // overflow is set if sign is incorrect
+  var overflow = undefined;
+  if (Math.sign(fullResult) === Math.sign(result)) {
+    overflow = 0;
+  } else {
+    overflow = Math.sign(fullResult) || Math.sign(result);
+  }
+  // note: for 5-trit + 5-trit + 1-trit will always V = C, but the logic above is generic
+  if (overflow !== carryOut) throw new Error('unexpected overflow calculation: ' + overflow + ' !== ' + carryOut);
+
+  return { result: result, carryOut: carryOut, fullResult: fullResult, overflow: overflow };
 }
 
 // Increment and decrement - no carry/overflow/underflow
@@ -747,7 +909,7 @@ module.exports = {
   dec: dec
 };
 
-},{"./arch":4}],6:[function(require,module,exports){
+},{"./arch":6}],8:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1424,7 +1586,7 @@ assemble.Assembler = Assembler;
 
 module.exports = assemble;
 
-},{"./opcodes":28,"./word":30,"balanced-ternary":10,"base27":11,"nonary":16,"trit-getset":17,"trit-text":22}],7:[function(require,module,exports){
+},{"./opcodes":30,"./word":32,"balanced-ternary":12,"base27":13,"nonary":18,"trit-getset":19,"trit-text":24}],9:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1545,7 +1707,7 @@ module.exports = function (opts) {
   return new Flags(opts);
 };
 
-},{"./opcodes":28,"trit-getset":17}],8:[function(require,module,exports){
+},{"./opcodes":30,"trit-getset":19}],10:[function(require,module,exports){
 'use strict';
 
 var _require = require('./arch');
@@ -1844,7 +2006,7 @@ module.exports = {
   disasm: disasm
 };
 
-},{"./arch":4,"./opcodes":28,"balanced-ternary":10,"invert-kv":13,"trit-getset":17}],9:[function(require,module,exports){
+},{"./arch":6,"./opcodes":30,"balanced-ternary":12,"invert-kv":15,"trit-getset":19}],11:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -2040,7 +2202,7 @@ module.exports = function (opts) {
   return new Memory(opts);
 };
 
-},{"./word":30}],10:[function(require,module,exports){
+},{"./word":32}],12:[function(require,module,exports){
 'use strict';
 
 var BT_DIGIT_TO_N = {
@@ -2113,7 +2275,7 @@ module.exports = {
   N_TO_BT_DIGIT: N_TO_BT_DIGIT
 };
 
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 var bts2n = require('balanced-ternary').bts2n;
@@ -2232,9 +2394,9 @@ module.exports = {
   BTS_TO_SV: BTS_TO_SV,
 };
 
-},{"balanced-ternary":12}],12:[function(require,module,exports){
-arguments[4][10][0].apply(exports,arguments)
-},{"dup":10}],13:[function(require,module,exports){
+},{"balanced-ternary":14}],14:[function(require,module,exports){
+arguments[4][12][0].apply(exports,arguments)
+},{"dup":12}],15:[function(require,module,exports){
 'use strict';
 module.exports = function (obj) {
 	if (typeof obj !== 'object') {
@@ -2251,7 +2413,7 @@ module.exports = function (obj) {
 	return ret;
 };
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 function lst(input) {
@@ -2268,9 +2430,9 @@ function lst(input) {
 
 module.exports = lst;
 
-},{}],15:[function(require,module,exports){
-arguments[4][10][0].apply(exports,arguments)
-},{"dup":10}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
+arguments[4][12][0].apply(exports,arguments)
+},{"dup":12}],18:[function(require,module,exports){
 'use strict';
 
 var bts2n = require('balanced-ternary').bts2n;
@@ -2362,7 +2524,7 @@ module.exports = {
 };
 
 
-},{"balanced-ternary":15}],17:[function(require,module,exports){
+},{"balanced-ternary":17}],19:[function(require,module,exports){
 'use strict';
 
 var bts2n = require('balanced-ternary').bts2n;
@@ -2405,9 +2567,9 @@ module.exports = {
   slice_trits: slice_trits
 };
 
-},{"balanced-ternary":18}],18:[function(require,module,exports){
-arguments[4][10][0].apply(exports,arguments)
-},{"dup":10}],19:[function(require,module,exports){
+},{"balanced-ternary":20}],20:[function(require,module,exports){
+arguments[4][12][0].apply(exports,arguments)
+},{"dup":12}],21:[function(require,module,exports){
 'use strict';
 
 function shl(input, carryIn) {
@@ -2423,7 +2585,7 @@ module.exports = {
   shr: shr,
 };
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var vkey = require('vkey');
@@ -2510,7 +2672,7 @@ function fromEvent(ev) {
 
 module.exports = fromEvent;
 
-},{"./utext":23,"vkey":21}],21:[function(require,module,exports){
+},{"./utext":25,"vkey":23}],23:[function(require,module,exports){
 var ua = typeof window !== 'undefined' ? window.navigator.userAgent : ''
   , isOSX = /OS X/.test(ua)
   , isOpera = /Opera/.test(ua)
@@ -2648,7 +2810,7 @@ for(i = 112; i < 136; ++i) {
   output[i] = 'F'+(i-111)
 }
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var _vtext = require('./vtext');
@@ -2695,7 +2857,7 @@ module.exports = {
   toTritmap9x14: toTritmap,
 };
 
-},{"./etext":20,"./utext":23,"./vtext":24}],23:[function(require,module,exports){
+},{"./etext":22,"./utext":25,"./vtext":26}],25:[function(require,module,exports){
 'use strict';
 
 /*
@@ -2862,7 +3024,7 @@ module.exports = {
   allUnicode: _chars,
 };
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports={
 '\u0000':
 '.........\n'+
@@ -4818,9 +4980,9 @@ module.exports={
 
 };
 
-},{}],25:[function(require,module,exports){
-arguments[4][10][0].apply(exports,arguments)
-},{"dup":10}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
+arguments[4][12][0].apply(exports,arguments)
+},{"dup":12}],28:[function(require,module,exports){
 // Generated by CoffeeScript 1.9.3
 module.exports = function(string, size, options) {
   var escapecolor, i, j, pad, prefix, ref, ref1;
@@ -4856,7 +5018,7 @@ module.exports = function(string, size, options) {
   }
 };
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var bts2n = require('balanced-ternary').bts2n;
@@ -4960,18 +5122,18 @@ function get_tryte_size() {
 };
 
 
-},{"balanced-ternary":25,"pad":26}],28:[function(require,module,exports){
+},{"balanced-ternary":27,"pad":28}],30:[function(require,module,exports){
 'use strict';
 
-var _JMP, _STZ, _LDA, _STA, _CMP, _XOP_TO_ALU_OP;
+var _JMP, _STZ, _LDA, _STA, _LDX, _STX, _CMP, _XOP_TO_ALU_OP;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var OP = {
   // shifts
   SHL: -13, // iii shift left (like ASL, arithmetic shift left) = multiply by three + D
-  ROL: -12, // ii0 rotate left
-  ROR: -11, // ii1 rotate right
+  uuA: -12, // ii0
+  uuB: -11, // ii1
   SHR: -10, // i0i shift right = division by by power of three
 
   // indexing
@@ -5126,7 +5288,10 @@ var XOP = {
 
   CMP_IIY: -27, // i000 compare accumulator with (indirect),Y indexed
   CMP_ABX: -26, // i001 compare accumulator with absolute,X
-  CMP_ABY: -25 };
+  CMP_ABY: -25, // i01i compare accumulator with absolute,Y
+
+  LDX_IIY: -24, // i010 load index from (indirect),Y indexed
+  STX_IIY: -23 };
 
 // raw xop key to addressing mode, for cpu instruction decoder
 // note: not all listed here directly supported by assembler; see OP_ADDR_MODE_TO_XOP instead
@@ -5150,7 +5315,9 @@ var XOP_TO_ADDR_MODE = {
   STY_ABX: ADDR_MODE.ABSOLUTE_X,
   CMP_IIY: ADDR_MODE.INDIRECT_INDEXED_Y,
   CMP_ABX: ADDR_MODE.ABSOLUTE_X,
-  CMP_ABY: ADDR_MODE.ABSOLUTE_Y
+  CMP_ABY: ADDR_MODE.ABSOLUTE_Y,
+  LDX_IIY: ADDR_MODE.INDIRECT_INDEXED_Y,
+  STX_IIY: ADDR_MODE.INDIRECT_INDEXED_Y
 };
 
 // most XOPs do not have operands, but some do (vs alu OP, which always does), irregular, listed here
@@ -5163,16 +5330,16 @@ var OP_ADDR_MODE_TO_XOP = {
 
   LDA: (_LDA = {}, _defineProperty(_LDA, ADDR_MODE.INDIRECT_INDEXED_Y, XOP.LDA_IIY), _defineProperty(_LDA, ADDR_MODE.ABSOLUTE_X, XOP.LDA_ABX), _defineProperty(_LDA, ADDR_MODE.ABSOLUTE_Y, XOP.LDA_ABY), _LDA),
   STA: (_STA = {}, _defineProperty(_STA, ADDR_MODE.INDIRECT_INDEXED_Y, XOP.STA_IIY), _defineProperty(_STA, ADDR_MODE.ABSOLUTE_X, XOP.STA_ABX), _defineProperty(_STA, ADDR_MODE.ABSOLUTE_Y, XOP.STA_ABY), _STA),
-  LDX: _defineProperty({}, ADDR_MODE.ABSOLUTE_Y, XOP.LDX_ABY),
+  LDX: (_LDX = {}, _defineProperty(_LDX, ADDR_MODE.ABSOLUTE_Y, XOP.LDX_ABY), _defineProperty(_LDX, ADDR_MODE.INDIRECT_INDEXED_Y, XOP.LDX_IIY), _LDX),
   LDY: _defineProperty({}, ADDR_MODE.ABSOLUTE_X, XOP.LDY_ABX),
-  STX: _defineProperty({}, ADDR_MODE.ABSOLUTE_Y, XOP.STX_ABY),
+  STX: (_STX = {}, _defineProperty(_STX, ADDR_MODE.ABSOLUTE_Y, XOP.STX_ABY), _defineProperty(_STX, ADDR_MODE.INDIRECT_INDEXED_Y, XOP.STX_IIY), _STX),
   STY: _defineProperty({}, ADDR_MODE.ABSOLUTE_X, XOP.STY_ABX),
   CMP: (_CMP = {}, _defineProperty(_CMP, ADDR_MODE.INDIRECT_INDEXED_Y, XOP.CMP_IIY), _defineProperty(_CMP, ADDR_MODE.ABSOLUTE_X, XOP.CMP_ABX), _defineProperty(_CMP, ADDR_MODE.ABSOLUTE_Y, XOP.CMP_ABY), _CMP)
 };
 
 // xop -> alu operation
 // if listed here, xop not implemented directly in xop.js but executed in alu.js
-var XOP_TO_ALU_OP = (_XOP_TO_ALU_OP = {}, _defineProperty(_XOP_TO_ALU_OP, XOP.LDA_IIY, OP.LDA), _defineProperty(_XOP_TO_ALU_OP, XOP.LDA_ABX, OP.LDA), _defineProperty(_XOP_TO_ALU_OP, XOP.LDA_ABY, OP.LDA), _defineProperty(_XOP_TO_ALU_OP, XOP.STA_IIY, OP.STA), _defineProperty(_XOP_TO_ALU_OP, XOP.STA_ABX, OP.STA), _defineProperty(_XOP_TO_ALU_OP, XOP.STA_ABY, OP.STA), _defineProperty(_XOP_TO_ALU_OP, XOP.LDX_ABY, OP.LDX), _defineProperty(_XOP_TO_ALU_OP, XOP.LDY_ABX, OP.LDY), _defineProperty(_XOP_TO_ALU_OP, XOP.STX_ABY, OP.STX), _defineProperty(_XOP_TO_ALU_OP, XOP.STY_ABX, OP.STY), _defineProperty(_XOP_TO_ALU_OP, XOP.CMP_IIY, OP.CMP), _defineProperty(_XOP_TO_ALU_OP, XOP.CMP_ABX, OP.CMP), _defineProperty(_XOP_TO_ALU_OP, XOP.CMP_ABY, OP.CMP), _XOP_TO_ALU_OP);
+var XOP_TO_ALU_OP = (_XOP_TO_ALU_OP = {}, _defineProperty(_XOP_TO_ALU_OP, XOP.LDA_IIY, OP.LDA), _defineProperty(_XOP_TO_ALU_OP, XOP.LDA_ABX, OP.LDA), _defineProperty(_XOP_TO_ALU_OP, XOP.LDA_ABY, OP.LDA), _defineProperty(_XOP_TO_ALU_OP, XOP.STA_IIY, OP.STA), _defineProperty(_XOP_TO_ALU_OP, XOP.STA_ABX, OP.STA), _defineProperty(_XOP_TO_ALU_OP, XOP.STA_ABY, OP.STA), _defineProperty(_XOP_TO_ALU_OP, XOP.LDX_ABY, OP.LDX), _defineProperty(_XOP_TO_ALU_OP, XOP.LDY_ABX, OP.LDY), _defineProperty(_XOP_TO_ALU_OP, XOP.STX_ABY, OP.STX), _defineProperty(_XOP_TO_ALU_OP, XOP.STY_ABX, OP.STY), _defineProperty(_XOP_TO_ALU_OP, XOP.CMP_IIY, OP.CMP), _defineProperty(_XOP_TO_ALU_OP, XOP.CMP_ABX, OP.CMP), _defineProperty(_XOP_TO_ALU_OP, XOP.CMP_ABY, OP.CMP), _defineProperty(_XOP_TO_ALU_OP, XOP.LDX_IIY, OP.LDX), _defineProperty(_XOP_TO_ALU_OP, XOP.STX_IIY, OP.STX), _XOP_TO_ALU_OP);
 
 module.exports = {
   OP: OP,
@@ -5186,9 +5353,9 @@ module.exports = {
 };
 // +4 11 R running, 1 when executing forward, i backwards, 0 halted
 // branch if carry set = branch if carry not equal zero
-// i01i compare accumulator with absolute,Y
+// i011 store index to (indirect),Y indexed
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -5247,7 +5414,7 @@ module.exports = function (memory) {
   return new Stack(memory);
 };
 
-},{"./word":30}],30:[function(require,module,exports){
+},{"./word":32}],32:[function(require,module,exports){
 'use strict';
 
 var _require = require('trit-getset');
@@ -5278,7 +5445,7 @@ module.exports = {
   trytes2word: trytes2word
 };
 
-},{"./arch":4,"trit-getset":17}],31:[function(require,module,exports){
+},{"./arch":6,"trit-getset":19}],33:[function(require,module,exports){
 'use strict';
 
 var _require = require('./opcodes');
@@ -5556,7 +5723,7 @@ function execute_xop_instruction(cpu, operation, read_arg, write_arg, address_of
 
 module.exports = execute_xop_instruction;
 
-},{"./arch":4,"./arithmetic":5,"./opcodes":28,"./word":30}],32:[function(require,module,exports){
+},{"./arch":6,"./arithmetic":7,"./opcodes":30,"./word":32}],34:[function(require,module,exports){
 var now = require('performance-now')
   , global = typeof window === 'undefined' ? {} : window
   , vendors = ['moz', 'webkit']
@@ -5626,7 +5793,7 @@ module.exports.cancel = function() {
   caf.apply(global, arguments)
 }
 
-},{"performance-now":33}],33:[function(require,module,exports){
+},{"performance-now":35}],35:[function(require,module,exports){
 (function (process){
 // Generated by CoffeeScript 1.7.1
 (function() {
@@ -5662,23 +5829,33 @@ module.exports.cancel = function() {
 }).call(this);
 
 }).call(this,require('_process'))
-},{"_process":47}],34:[function(require,module,exports){
-arguments[4][20][0].apply(exports,arguments)
-},{"./utext":37,"dup":20,"vkey":35}],35:[function(require,module,exports){
-arguments[4][21][0].apply(exports,arguments)
-},{"dup":21}],36:[function(require,module,exports){
+},{"_process":55}],36:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
-},{"./etext":34,"./utext":37,"./vtext":38,"dup":22}],37:[function(require,module,exports){
+},{"./utext":39,"dup":22,"vkey":37}],37:[function(require,module,exports){
 arguments[4][23][0].apply(exports,arguments)
 },{"dup":23}],38:[function(require,module,exports){
 arguments[4][24][0].apply(exports,arguments)
-},{"dup":24}],39:[function(require,module,exports){
-arguments[4][10][0].apply(exports,arguments)
-},{"dup":10}],40:[function(require,module,exports){
+},{"./etext":36,"./utext":39,"./vtext":40,"dup":24}],39:[function(require,module,exports){
+arguments[4][25][0].apply(exports,arguments)
+},{"dup":25}],40:[function(require,module,exports){
 arguments[4][26][0].apply(exports,arguments)
 },{"dup":26}],41:[function(require,module,exports){
-arguments[4][17][0].apply(exports,arguments)
-},{"balanced-ternary":39,"dup":17}],42:[function(require,module,exports){
+arguments[4][22][0].apply(exports,arguments)
+},{"./utext":44,"dup":22,"vkey":42}],42:[function(require,module,exports){
+arguments[4][23][0].apply(exports,arguments)
+},{"dup":23}],43:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"./etext":41,"./utext":44,"./vtext":45,"dup":24}],44:[function(require,module,exports){
+arguments[4][25][0].apply(exports,arguments)
+},{"dup":25}],45:[function(require,module,exports){
+arguments[4][26][0].apply(exports,arguments)
+},{"dup":26}],46:[function(require,module,exports){
+arguments[4][12][0].apply(exports,arguments)
+},{"dup":12}],47:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"dup":28}],48:[function(require,module,exports){
+arguments[4][19][0].apply(exports,arguments)
+},{"balanced-ternary":46,"dup":19}],49:[function(require,module,exports){
 'use strict';
 
 var n2bts = require('balanced-ternary').n2bts;
@@ -5779,7 +5956,7 @@ module.exports = function(opts) {
   return new Tricanvas(opts);
 }
 
-},{"balanced-ternary":39,"pad":40,"trit-getset":41}],43:[function(require,module,exports){
+},{"balanced-ternary":46,"pad":47,"trit-getset":48}],50:[function(require,module,exports){
 'use strict';
 
 var Tricanvas = require('tritmapped-canvas');
@@ -5881,34 +6058,71 @@ module.exports = function(opts) {
 };
 
 
-},{"trit-text":36,"tritmapped-canvas":42}],44:[function(require,module,exports){
-(function (global){
-'use strict';
+},{"trit-text":43,"tritmapped-canvas":49}],51:[function(require,module,exports){
+var bundleFn = arguments[3];
+var sources = arguments[4];
+var cache = arguments[5];
 
-var CPU = require('cpu3502');
+var stringify = JSON.stringify;
 
-var installVideoHardware = require('./video.js');
-var installAudioHardware = require('./audio.js');
-var installTimerHardware = require('./timer.js');
+module.exports = function (fn) {
+    var keys = [];
+    var wkey;
+    var cacheKeys = Object.keys(cache);
+    
+    for (var i = 0, l = cacheKeys.length; i < l; i++) {
+        var key = cacheKeys[i];
+        if (cache[key].exports === fn) {
+            wkey = key;
+            break;
+        }
+    }
+    
+    if (!wkey) {
+        wkey = Math.floor(Math.pow(16, 8) * Math.random()).toString(16);
+        var wcache = {};
+        for (var i = 0, l = cacheKeys.length; i < l; i++) {
+            var key = cacheKeys[i];
+            wcache[key] = key;
+        }
+        sources[wkey] = [
+            Function(['require','module','exports'], '(' + fn + ')(self)'),
+            wcache
+        ];
+    }
+    var skey = Math.floor(Math.pow(16, 8) * Math.random()).toString(16);
+    
+    var scache = {}; scache[wkey] = wkey;
+    sources[skey] = [
+        Function(['require'],'require(' + stringify(wkey) + ')(self)'),
+        scache
+    ];
+    
+    var src = '(' + bundleFn + ')({'
+        + Object.keys(sources).map(function (key) {
+            return stringify(key) + ':['
+                + sources[key][0]
+                + ',' + stringify(sources[key][1]) + ']'
+            ;
+        }).join(',')
+        + '},{},[' + stringify(skey) + '])'
+    ;
+    
+    var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+    
+    return new Worker(URL.createObjectURL(
+        new Blob([src], { type: 'text/javascript' })
+    ));
+};
 
-var cpu = CPU();
-
-installVideoHardware(cpu);
-installAudioHardware(cpu);
-installTimerHardware(cpu);
-
-global.cpu = cpu;
-
-cpu.assemble_bootcode('LDA #$ijk\nLDA #%ii1i0\nLDA #&QF\nNOP\nNOP\nNOP\nLDA #0\nLDA #42\nSTA 0\n\nLDA #%00i01\nPTI A\n\nTAX\n\nLDA #\'X\n\n.equ -3282 chargen\n.equ -3283 row\n.equ -3284 col\n\n.equ -3286 beep\n\nSTA chargen\n\nLDX #1\nSTX col\nSTA chargen\n\nLDX #1\nSTX row\nLDX #2\nSTX col\nSTA chargen\n\nLDX #-1\nSTX row\nSTA chargen\n\n\nLDX #0\nSTX row\nLDY #4\nSTY col\nLDX #1\nSTA chargen\n\nADC #2\nSTI A        ; simple ternary inverter\nSTA chargen  ; trit-text red \'Z\'\n\nLDX #4\nINX\nSTX col\nDEC chargen  ; trit-text \'Y\'\n\nTXA     ; X->A, 5\n\n; setup stack, since default 0 overlaps with memory-mapped screen output\n.equ -10000 stack\nLDY #>stack\nLDX #<stack\nTXYS\n\n; loop 6..19\nloop:\nINC A\nSTA col\nSTA chargen\nCMP #20\n;BNE #-11\nBNE loop\n\nLDA #1\nSTA row\nSTZ col\n\n; print greeting\nLDA #<greeting\nLDX #>greeting\nJSR print_string\n\nINC row\nSTZ col\n\nLDA #<prompt_string\nLDX #>prompt_string\nJSR print_string\n\n;STZ beep\n\n; set input interrupt handler\n.equ -29524 int_inputL\n.equ -29523 int_inputH\nLDA #<handle_input\nSTA int_inputL\nLDA #>handle_input\nSTA int_inputH\n\nSEIP     ; enable interrupt -1 (keyboard input) TODO: also handle int 1, then can unmask all with CLI\n\n; set pulse interrupt handler\n.equ -29520 int_pulseL\n.equ -29519 int_pulseH\nLDA #<handle_pulse\nSTA int_pulseL\nLDA #>handle_pulse\nSTA int_pulseH\n\nCLI      ;  enable all interrupts\n\nLDA #\'_               ; a suitable cursor character\n;LDA #\'▒            ; alternative block cursor TODO: use in \'insert\' mode?\nSTA cursor_char\n\n.equ -3285 timer_freq\nLDA #1     ; 100 ms\n; cursor blink - disable when want quiescence (noisy)\nSTA timer_freq   ; triggers interrupt immediately.. TODO: probably should delay! or never returns?\n;\n\nHALTZ\n\ncursor_char:\n.tryte 0\n\ngreeting:\n.data "Hello, world! ☺ 3502 CPU online: system readyWaiting for user input."\n.tryte 0\n\nprompt_string:\n;TODO: support newlines in print_string \'.tryte 12\',  // trit-text newline TODO: support embedding in .data\n.data "$ "\n.tryte 0\n\nbad_command_string:\n.data "Bad command or file name: "\n.tryte 0\n\nhandle_pulse:\n; blinking cursor\nLDA cursor_char\nSTA chargen\nSTI cursor_char    ; simple ternary inverter, toggle red/green \'_\'\nRTI                ; return from interrupt\n\n; subroutine to advance terminal to next line\nnext_line:\nINC row\nSTZ col\nRTS\n\n\nhandle_prev_line:\nDEC row\nLDA #44        ; TODO: .equ\nSTA col\nJMP handled_input\n\nhandle_backspace:\nJSR truncate_line_buffer\nBCS handle_backspace_denied    ; if couldn\'t delete\nSTZ chargen                    ; clear cursor\nDEC col\nLDA col\nCMP #-1\nBEQ handle_prev_line\nSTZ chargen\nJMP handled_input\n\nhandle_backspace_denied:\nSTZ beep                       ;  user feedback that their backspacing was denied\nJMP handled_input\n\nhandle_enter:\nSTZ chargen                    ; clear cursor\nJSR next_line\nLDA #<bad_command_string\nLDX #>bad_command_string\nJSR print_string\nLDA #<line_buffer\nLDX #>line_buffer\nJSR print_string\nJSR reset_line_buffer\nINC row\nSTZ col\nLDA #<prompt_string\nLDX #>prompt_string\nJSR print_string\nJMP handled_input\n\n; interrupt handler:\nhandle_input:\nCMP #\'\\n\nBEQ handle_enter\nCMP #0\nBEQ handle_backspace\n\nJSR save_line_buffer_char\nJSR print_char\n\n\nhandled_input:\nRTI\n\n\n\n; append character in A to line_buffer\nsave_line_buffer_char:\nLDY line_buffer_offset\nSTA line_buffer,Y\nINC line_buffer_offset\nINY\nLDX #0\nSTX line_buffer,Y      ; null terminate\nRTS\n\nline_buffer_offset:\n.tryte 0\n\n; reset line buffer to empty string\nreset_line_buffer:\nSTZ line_buffer_offset\nSTA line_buffer\nRTS\n\n; delete last character of line buffer, sets carry flag if cannot be deleted\ntruncate_line_buffer:\nLDY line_buffer_offset\nDEY\nCPY #0\nBMI _truncate_line_buffer_skip     ; empty buffer, cannot truncate further\nSTZ line_buffer,Y\nSTY line_buffer_offset\nCLC\nRTS\n_truncate_line_buffer_skip:\nSECN\nRTS\n\n; print character in A to screen and advance cursor\nprint_char:\nSTA chargen\nINC col\n\nLDX col\n.equ 45 row_count\nCPX #row_count\nBNE print_char_done\nJSR next_line          ; at last column, wrap cursor to next line\n\nprint_char_done:\nRTS\n\n\n; print a null-terminated string pointed to by A,X\nprint_string:\nSTA _print_string_param\nSTX _print_string_param+1\nLDY #0\n_print_string_loop:\nLDA (_print_string_param),Y\nCMP #0\nBEQ _print_string_done\nJSR print_char\nINY\nBRA _print_string_loop\n_print_string_done:\nRTS\n_print_string_param:\n.word 0\n\n\nline_buffer:\n.tryte 0     ; may extend further\n');
-cpu.boot();
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./audio.js":1,"./timer.js":45,"./video.js":46,"cpu3502":2}],45:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 var TIMER_FREQUENCY_ADDRESS = -3285;
 
 var INT_PULSE = 1;
+
+function createTimerHardware(worker) {}
 
 function installTimerHardware(cpu) {
   var _timer = undefined;
@@ -5924,7 +6138,7 @@ function installTimerHardware(cpu) {
         console.log('TIMER FIRE, next=' + ms + ' ms');
         cpu.interrupt(INT_PULSE); // TODO: pass dt, time since previous fire?
 
-        _timer = window.setTimeout(fire, ms);
+        _timer = setTimeout(fire, ms);
       };
 
       if (_timer === undefined) fire();
@@ -5932,9 +6146,14 @@ function installTimerHardware(cpu) {
   });
 }
 
-module.exports = installTimerHardware;
+module.exports = {
+  create: createTimerHardware,
+  install: installTimerHardware
+};
 
-},{}],46:[function(require,module,exports){
+// nothing needed on main thread; this is entirely in web worker
+
+},{}],53:[function(require,module,exports){
 'use strict';
 
 var _require = require('cpu3502/arch');
@@ -5964,25 +6183,62 @@ var CURSOR_COL_ADDRESS = -3284;
 
 var INT_INPUT = -1;
 
-function installVideoHardware(cpu) {
+// Create the video terminal hardware display (on the main thread), listen for worker
+function createVideoHardware(worker) {
   var term = Triterm({
     addressTryteSize: VIDEO_TRYTE_COUNT,
-    tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET),
+    //tritmap: cpu.memory.subarray(VIDEO_ADDRESS_OFFSET, VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET), // no direct access
     handleInput: function handleInput(tt, ev) {
       if (Number.isInteger(tt)) {
-        cpu.interrupt(INT_INPUT, tt);
+        worker.postMessage({ cmd: 'keyboard input', value: tt });
       }
     }
   });
 
+  worker.hardwareHandlers.video = function (ev) {
+    if (ev.data.cmd === 'write') {
+      term.tc.tritmap[ev.data.address] = ev.data.value;
+    } else if (ev.data.cmd === 'term setTTChar') {
+      var row = ev.data.row;
+      var col = ev.data.col;
+
+      // wrap-around if row/col out of terminal range
+      row %= term.rowCount;if (row < 0) row += term.rowCount;
+      col %= term.colCount;if (col < 0) col += term.colCount;
+
+      console.log('COLROW', col, row);
+
+      term.setTTChar(ev.data.value, col, row);
+    }
+  };
+
+  raf(function tick() {
+    term.refresh();
+    raf(tick);
+  });
+};
+
+// Install the video hardware on the CPU in the worker (send messages back to main, handle messages to cpu)
+function installVideoHardware(cpu) {
+  self.addEventListener('message', function (ev) {
+    if (ev.data.cmd === 'keyboard input') {
+      console.log('worker received interrupt');
+      cpu.interrupt(INT_INPUT, ev.data.value);
+    }
+  });
+
   cpu.memory.addMemoryMap('video', {
-    start: VIDEO_ADDRESS_OFFSET, // -3281      0i111 11111
-    end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET, // 29524, end 11111 11111
+    start: VIDEO_ADDRESS_OFFSET, // -3281      %0i111 11111   $wdddd
+    end: VIDEO_ADDRESS_SIZE + VIDEO_ADDRESS_OFFSET, // 29524, end %11111 11111   $ddddd
     write: function write(address, value) {
-      // When writing to video, refresh the terminal canvas
-      // TODO: optimize to throttle refresh? refresh rate 60 Hz?/requestAnimationFrame? dirty, only if changes?
-      //console.log('video write:',address,value);
-      term.tc.refresh();
+      self.postMessage({ hardware: 'video', cmd: 'write', address: address - VIDEO_ADDRESS_OFFSET, value: value });
+      //term.tc.tritmap[address - VIDEO_ADDRESS_OFFSET] = value;
+      console.log('video write:', address, value);
+    },
+    read: function read(address) {
+      console.log('video read:', address);
+      throw new Error('video read unsupported'); // TODO?
+      //return term.tc.tritmap[address - VIDEO_ADDDRESS_OFFSET];
     }
   });
 
@@ -5995,25 +6251,47 @@ function installVideoHardware(cpu) {
       var row = cpu.memory.read(CURSOR_ROW_ADDRESS);
       var col = cpu.memory.read(CURSOR_COL_ADDRESS);
 
-      // wrap-around if row/col out of terminal range
-      row %= term.rowCount;if (row < 0) row += term.rowCount;
-      col %= term.colCount;if (col < 0) col += term.colCount;
-
-      console.log('COLROW', col, row);
-
-      term.setTTChar(value, col, row);
+      //term.setTTChar(value, col, row);
+      self.postMessage({ hardware: 'video', cmd: 'term setTTChar', value: value, col: col, row: row });
     }
-  });
-
-  raf(function tick() {
-    term.refresh();
-    raf(tick);
   });
 }
 
-module.exports = installVideoHardware;
+module.exports = {
+  create: createVideoHardware,
+  install: installVideoHardware
+};
 
-},{"cpu3502/arch":4,"raf":32,"tritmapped-terminal":43}],47:[function(require,module,exports){
+},{"cpu3502/arch":6,"raf":34,"tritmapped-terminal":50}],54:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var CPU = require('cpu3502');
+
+module.exports = function (self) {
+
+  self.addEventListener('message', function (ev) {
+    console.log('worker got', ev.data);
+
+    if (ev.data.cmd === 'boot') {
+      var cpu = CPU();
+      global.cpu = cpu;
+      console.log('cpu=', cpu);
+
+      require('./video.js').install(cpu);
+      require('./audio.js').install(cpu);
+      require('./timer.js').install(cpu);
+      require('./floppy.js').install(cpu);
+
+      cpu.assemble_bootcode('NOP\n\n; write to memory-mapped video\nLDA #%i1i1i\n.equ $wdddd video_start\n.equ $ddddd video_end\nSTA video_start\nSTA $wdddd\nSTA $0zzzz\nSTA $0zzzy\nSTA $0zzzx\nSTA $0zzzw\nSTA $0zzz0\nSTA $0zzza\n\n.equ -3282 chargen\n.equ -3283 row\n.equ -3284 col\n\n.equ -3286 beep\n\n; write to text character generator\nLDA #\'X\nLDX #0\nSTX row\nLDY #4\nSTY col\nLDX #1\nSTA chargen\n\nADC #2\nSTI A        ; simple ternary inverter\nSTA chargen  ; trit-text red \'Z\'\n\nLDX #4\nINX\nSTX col\nDEC chargen  ; trit-text \'Y\'\n\nTXA     ; X->A, 5\n\n; setup stack, since default 0 overlaps with memory-mapped screen output\n.equ -10000 stack\nLDY #>stack\nLDX #<stack\nTXYS\n\n; loop 6..19\nloop:\nINC A\nSTA col\nSTA chargen\nCMP #20\n;BNE #-11\nBNE loop\n\nLDA #1\nSTA row\nSTZ col\n\n; print greeting\nLDA #<greeting\nLDX #>greeting\nJSR print_string\n\nINC row\nSTZ col\n\nLDA #<prompt_string\nLDX #>prompt_string\nJSR print_string\n\n;STZ beep\n\n; set input interrupt handler\n.equ -29524 int_inputL\n.equ -29523 int_inputH\nLDA #<handle_input\nSTA int_inputL\nLDA #>handle_input\nSTA int_inputH\n\nSEIP     ; enable interrupt -1 (keyboard input) TODO: also handle int 1, then can unmask all with CLI\n\n; set pulse interrupt handler\n.equ -29520 int_pulseL\n.equ -29519 int_pulseH\nLDA #<handle_pulse\nSTA int_pulseL\nLDA #>handle_pulse\nSTA int_pulseH\n\nCLI      ;  enable all interrupts\n\nLDA #\'_               ; a suitable cursor character\n;LDA #\'▒            ; alternative block cursor TODO: use in \'insert\' mode?\nSTA cursor_char\n\n.equ -3285 timer_freq\nLDA #1     ; 100 ms\n; cursor blink - disable when want quiescence (noisy)\nSTA timer_freq   ; triggers interrupt immediately.. TODO: probably should delay! or never returns?\n;\n\nHALTZ\n\ncursor_char:\n.tryte 0\n\ngreeting:\n.data "Hello, world! ☺ 3502 CPU online: system ready---------------------------------------------"\n.tryte 0\n\nprompt_string:\n;TODO: support newlines in print_string \'.tryte 12\',  // trit-text newline TODO: support embedding in .data\n.data "$ "\n.tryte 0\n\nbad_command_string:\n.data "Bad command or file name: "\n.tryte 0\n\nhelp_command_string:\n.data "Available commands:                          "\n.data "Help:                                        "\n.data "beep - sound a beep through the speaker      "\n.data "clear - clear terminal screen display        "\n.data "help - show help on supported commands       "\n.data "read - read data from floppy disk            "\n.data "write - write data to floppy disk            "\n.data "echo - echo input to terminal                "\n.tryte 0\n\nhandle_pulse:\n; blinking cursor\nLDA cursor_char\nSTA chargen\nSTI cursor_char    ; simple ternary inverter, toggle red/green \'_\'\nRTI                ; return from interrupt\n\n; subroutine to advance terminal to next line\nnext_line:\nINC row\nSTZ col\nRTS\n\n\nhandle_prev_line:\nDEC row\nLDA #44        ; TODO: .equ\nSTA col\nJMP handled_input\n\nhandle_backspace:\nJSR truncate_line_buffer\nBCS handle_backspace_denied    ; if couldn\'t delete\nSTZ chargen                    ; clear cursor\nDEC col\nLDA col\nCMP #-1\nBEQ handle_prev_line\nSTZ chargen\nJMP handled_input\n\nhandle_backspace_denied:\nSTZ beep                       ;  user feedback that their backspacing was denied\nJMP handled_input\n\nhandle_enter:\nSTZ chargen                    ; clear cursor\nJSR next_line\n; check commands TODO: strcmp, check full string instead of only first character\nLDY #0\nLDA #\'\\0\nCMP line_buffer,Y\nBEQ command_null\nLDA #\'b\nCMP line_buffer,Y\nBEQ command_beep\nLDA #\'c\nCMP line_buffer,Y\nBEQ command_clear\nLDA #\'h\nCMP line_buffer,Y\nBEQ command_help\nLDA #\'r\nCMP line_buffer,Y\nBEQ command_read\nLDA #\'w\nCMP line_buffer,Y\nBEQ command_write\nLDA #\'e\nCMP line_buffer,Y\nBEQ command_echo\nJMP command_bad\n\nhandle_enter_done:\nJSR reset_line_buffer\nSTZ col\nLDA #<prompt_string\nLDX #>prompt_string\nJSR print_string\nJMP handled_input\n\n; interrupt handler:\nhandle_input:\nCMP #\'\\n\nBEQ handle_enter\nCMP #0\nBEQ handle_backspace\n\nJSR save_line_buffer_char\nJSR print_char\n\n\nhandled_input:\nRTI\n\ncommand_bad:\nLDA #<bad_command_string\nLDX #>bad_command_string\nJSR print_string\nLDA #<line_buffer\nLDX #>line_buffer\nJSR print_string\nINC row\nJMP handle_enter_done\n\ncommand_help:\nLDA #<help_command_string\nLDX #>help_command_string\nJSR print_string\nJMP handle_enter_done\n\ncommand_beep:\nSTA beep\nJMP handle_enter_done\n\ncommand_null:\nJMP handle_enter_done\n\ncommand_read:\nJMP command_read2       ; too far\ncommand_write:\nJMP command_write2\n\ncommand_echo:\nLDA #<line_buffer\nLDX #>line_buffer\nJSR print_string\nINC row\nJMP handle_enter_done\n\n.equ 45 col_count\n.equ 28 row_count\n\ncommand_clear:\nSTZ col\nSTZ row\n_command_clear_next_row:\n_command_clear_next_col:\nSTZ chargen     ; write empty character at each cursor position to clear terminal TODO: instead write to tritmapped memory?\nINC col\nLDA col\nCMP #col_count\nBNE _command_clear_next_col\nINC row\nLDA row\nCMP #row_count\nBNE _command_clear_next_row\nSTZ beep        ; beep when done\nSTZ col         ; reset cursor to beginning\nSTZ row\nJMP handle_enter_done\n\n\n; append character in A to line_buffer\nsave_line_buffer_char:\nLDY line_buffer_offset\nSTA line_buffer,Y\nINC line_buffer_offset\nINY\nLDX #0\nSTX line_buffer,Y      ; null terminate\nRTS\n\nline_buffer_offset:\n.tryte 0\n\n; reset line buffer to empty string\nreset_line_buffer:\nSTZ line_buffer_offset\nSTZ line_buffer\nRTS\n\n; delete last character of line buffer, sets carry flag if cannot be deleted\ntruncate_line_buffer:\nLDY line_buffer_offset\nDEY\nCPY #0\nBMI _truncate_line_buffer_skip     ; empty buffer, cannot truncate further\nSTZ line_buffer,Y\nSTY line_buffer_offset\nCLC\nRTS\n_truncate_line_buffer_skip:\nSECN\nRTS\n\n; print character in A to screen and advance cursor\nprint_char:\nSTA chargen\nINC col\n\nLDX col\nCPX #col_count\nBNE print_char_done\nJSR next_line          ; at last column, wrap cursor to next line\n\nprint_char_done:\nRTS\n\n\n; print a null-terminated string pointed to by A,X\nprint_string:\nSTA _print_string_param\nSTX _print_string_param+1\nLDY #0\n_print_string_loop:\nLDA (_print_string_param),Y\nCMP #0\nBEQ _print_string_done\nJSR print_char\nLDA #1\nADC _print_string_param\nSTA _print_string_param\nLDA #0\nADC _print_string_param+1\nSTA _print_string_param+1\nBRA _print_string_loop\n_print_string_done:\nRTS\n_print_string_param:\n.word 0\n\n\n\n\n.equ -3290 floppy_data_ptr\n.equ -3292 floppy_name_ptr\n.equ -3294 floppy_length_ptr\n.equ -3296 floppy_command_execute\n.equ -1 floppy_command_read\n.equ 0 floppy_command_write\n\n; write data to floppy (similar to echo text > filename TODO)\ncommand_write2:\nLDA #<line_buffer\nLDX #>line_buffer\nSTA floppy_data_ptr     ; TODO: increment pointer to remove command prefix\nSTX floppy_data_ptr+1\n\nLDA #<filename\nLDX #>filename\nSTA floppy_name_ptr\nSTX floppy_name_ptr+1\n\nLDA #floppy_command_write\nSTA floppy_command_execute  ; TODO: print out number of trytes written? to filename?\n\nJMP handle_enter_done\n\n\n; read data from floppy TODO: rename \'cat\'...? Unix\ncommand_read2:\nLDA #<line_buffer\nLDX #>line_buffer\nSTA floppy_data_ptr\nSTX floppy_data_ptr+1\n\nLDA #<filename\nLDX #>filename\nSTA floppy_name_ptr\nSTX floppy_name_ptr+1\n\nLDA #floppy_command_read\nSTA floppy_command_execute\n\nLDA #<line_buffer\nLDX #>line_buffer\nJSR print_string\nINC row\nSTZ col\n\nJMP handle_enter_done\n\n; floppy filename TODO: read from argument\nfilename:\n.data "hi"\n.tryte 0\n\n\n\nline_buffer:\n.tryte 0     ; may extend further\n');
+      cpu.boot();
+      self.postMessage('booted');
+    }
+  });
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./audio.js":1,"./floppy.js":2,"./timer.js":52,"./video.js":53,"cpu3502":4}],55:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -6072,4 +6350,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[44]);
+},{}]},{},[3]);
